@@ -1,0 +1,18 @@
+{
+  "Comment": "Failback PaySecure API traffic to Mumbai primary region",
+  "Changes": [
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "api.paysecure.example.com",
+        "Type": "CNAME",
+        "TTL": 30,
+        "ResourceRecords": [
+          {
+            "Value": "mumbai-alb.paysecure.example.com"
+          }
+        ]
+      }
+    }
+  ]
+}

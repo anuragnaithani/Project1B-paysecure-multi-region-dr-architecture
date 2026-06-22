@@ -1,0 +1,25 @@
+flowchart LR
+    U[Users and Merchants] --> R53[Route 53 DNS Failover]
+    R53 --> ALB1[Mumbai ALB + WAF]
+    R53 --> ALB2[Hyderabad ALB + WAF]
+
+    subgraph Mumbai ap-south-1
+        ALB1 --> EKS1[EKS Payment Services]
+        EKS1 --> AUR1[Aurora PostgreSQL Writer]
+        EKS1 --> DDB1[DynamoDB Global Table]
+        EKS1 --> REDIS1[ElastiCache Redis Primary]
+        EKS1 --> MSK1[MSK Kafka Primary]
+    end
+
+    subgraph Hyderabad ap-south-2
+        ALB2 --> EKS2[EKS Hot Standby Services]
+        EKS2 --> AUR2[Aurora PostgreSQL Reader]
+        EKS2 --> DDB2[DynamoDB Global Table]
+        EKS2 --> REDIS2[ElastiCache Redis Secondary]
+        EKS2 --> MSK2[MSK Kafka DR]
+    end
+
+    AUR1 -. Aurora Global Database .-> AUR2
+    DDB1 <-. Global Tables .-> DDB2
+    REDIS1 -. Global Datastore .-> REDIS2
+    MSK1 -. MSK Replicator .-> MSK2
