@@ -1,0 +1,54 @@
+digraph PaySecureDR {
+  rankdir=LR;
+  node [shape=box, style="rounded,filled", fillcolor="#EAF3FF", fontsize=12];
+
+  users [label="Users & Merchants"];
+  r53 [label="Route53 DNS Failover"];
+
+  subgraph cluster_mumbai {
+    label="Primary Region: Mumbai ap-south-1";
+    style=filled;
+    color="#FFF4CC";
+
+    alb1 [label="Mumbai ALB + WAF"];
+    eks1 [label="EKS Payment Services"];
+    aur1 [label="Aurora PostgreSQL Writer"];
+    ddb1 [label="DynamoDB Global Table"];
+    redis1 [label="Redis Primary"];
+    kafka1 [label="MSK Kafka Primary"];
+  }
+
+  subgraph cluster_hyd {
+    label="DR Region: Hyderabad ap-south-2";
+    style=filled;
+    color="#E8FFE8";
+
+    alb2 [label="Hyderabad ALB + WAF"];
+    eks2 [label="EKS Hot Standby"];
+    aur2 [label="Aurora PostgreSQL Reader"];
+    ddb2 [label="DynamoDB Global Table"];
+    redis2 [label="Redis Secondary"];
+    kafka2 [label="MSK Kafka DR"];
+  }
+
+  users -> r53;
+  r53 -> alb1 [label="Normal traffic"];
+  r53 -> alb2 [label="Failover traffic"];
+
+  alb1 -> eks1;
+  eks1 -> aur1;
+  eks1 -> ddb1;
+  eks1 -> redis1;
+  eks1 -> kafka1;
+
+  alb2 -> eks2;
+  eks2 -> aur2;
+  eks2 -> ddb2;
+  eks2 -> redis2;
+  eks2 -> kafka2;
+
+  aur1 -> aur2 [style=dashed, label="Aurora Global DB"];
+  ddb1 -> ddb2 [style=dashed, label="Global Tables"];
+  redis1 -> redis2 [style=dashed, label="Global Datastore"];
+  kafka1 -> kafka2 [style=dashed, label="MSK Replicator"];
+}
