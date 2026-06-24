@@ -1,0 +1,6 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: settlement-engine
+spec:
+  replicas: 5

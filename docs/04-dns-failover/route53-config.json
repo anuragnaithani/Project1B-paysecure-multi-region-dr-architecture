@@ -1,0 +1,13 @@
+{
+  "Comment": "PaySecure Route53 failover configuration",
+  "Records": [
+    {
+      "Name": "api.paysecure.example.com",
+      "Type": "CNAME",
+      "TTL": 30,
+      "Primary": "mumbai-alb.paysecure.example.com",
+      "Secondary": "hyd-alb.paysecure.example.com",
+      "HealthCheck": "paysecure-mumbai-api-health"
+    }
+  ]
+}

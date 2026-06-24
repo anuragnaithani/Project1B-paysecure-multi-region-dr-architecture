@@ -1,0 +1,5 @@
+groups:
+- name: paysecure
+  rules:
+  - alert: AuroraReplicationLag
+    expr: aurora_replication_lag > 500

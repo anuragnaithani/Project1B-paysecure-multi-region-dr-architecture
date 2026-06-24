@@ -1,0 +1,6 @@
+PaySecure Active-Active Architecture Diagram Source
+Regions:
+- Mumbai
+- Hyderabad
+Traffic served from both regions
+Purpose: Design evaluation only

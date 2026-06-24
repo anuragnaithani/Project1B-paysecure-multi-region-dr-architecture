@@ -1,0 +1,12 @@
+PaySecure Current State Architecture Diagram Source
+Created using Draw.io
+Version: 1.0
+Primary Region: ap-south-1 Mumbai
+Components:
+- Route53
+- ALB
+- EKS
+- Aurora PostgreSQL
+- DynamoDB
+- Redis
+- Kafka

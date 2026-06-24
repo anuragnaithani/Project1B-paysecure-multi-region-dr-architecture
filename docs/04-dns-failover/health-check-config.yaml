@@ -1,0 +1,27 @@
+health_checks:
+  - name: paysecure-mumbai-api-health
+    type: HTTPS
+    fqdn: api.paysecure.example.com
+    port: 443
+    path: /health
+    interval_seconds: 10
+    failure_threshold: 3
+    severity: P1
+
+  - name: paysecure-mumbai-api-ready
+    type: HTTPS
+    fqdn: api.paysecure.example.com
+    port: 443
+    path: /ready
+    interval_seconds: 10
+    failure_threshold: 3
+    severity: P1
+
+  - name: paysecure-synthetic-payment
+    type: HTTPS
+    fqdn: api.paysecure.example.com
+    port: 443
+    path: /synthetic/payment-check
+    interval_seconds: 60
+    failure_threshold: 2
+    severity: P1
