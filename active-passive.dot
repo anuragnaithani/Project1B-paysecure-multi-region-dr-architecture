@@ -1,0 +1,28 @@
+digraph ActivePassive {
+ rankdir=LR;
+ node [shape=box, style="rounded,filled", fillcolor="#EAF3FF"];
+
+ Users -> Route53;
+ Route53 -> Mumbai [label="Primary"];
+ Route53 -> Hyderabad [label="Failover"];
+
+ Mumbai -> AuroraM;
+ Mumbai -> DDBM;
+ Mumbai -> RedisM;
+ Mumbai -> KafkaM;
+
+ Hyderabad -> AuroraH;
+ Hyderabad -> DDBH;
+ Hyderabad -> RedisH;
+ Hyderabad -> KafkaH;
+
+ AuroraM -> AuroraH [style=dashed,label="Global DB"];
+ DDBM -> DDBH [style=dashed,label="Global Tables"];
+ RedisM -> RedisH [style=dashed,label="Global Datastore"];
+ KafkaM -> KafkaH [style=dashed,label="MSK Replicator"];
+
+ Users[label="Users"];
+ Route53[label="Route53 DNS"];
+ Mumbai[label="Mumbai EKS"];
+ Hyderabad[label="Hyderabad Hot Standby"];
+}

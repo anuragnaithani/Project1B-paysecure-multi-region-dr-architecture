@@ -1,0 +1,27 @@
+digraph ActiveActive {
+ rankdir=LR;
+ node [shape=box, style="rounded,filled", fillcolor="#EAF3FF"];
+
+ Users -> Route53;
+ Route53 -> Mumbai [label="50% Traffic"];
+ Route53 -> Hyderabad [label="50% Traffic"];
+
+ Mumbai -> AuroraM;
+ Hyderabad -> AuroraH;
+
+ AuroraM -> AuroraH [dir=both,color=red,label="Conflict Risk"];
+ DDBM -> DDBH [dir=both];
+ KafkaM -> KafkaH [dir=both];
+
+ Users[label="Users"];
+ Route53[label="Weighted Routing"];
+ Mumbai[label="Mumbai Active"];
+ Hyderabad[label="Hyderabad Active"];
+
+ AuroraM[label="Aurora Writer A"];
+ AuroraH[label="Aurora Writer B"];
+ DDBM[label="DynamoDB"];
+ DDBH[label="DynamoDB"];
+ KafkaM[label="Kafka"];
+ KafkaH[label="Kafka"];
+}
